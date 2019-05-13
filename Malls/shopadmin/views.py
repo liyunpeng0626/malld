@@ -11,6 +11,9 @@ from django.core.paginator import Paginator
 from shopadmin.serializers import *
 import time
 # Create your views here.
+
+# 带蝴蝶好好的
+# 后返回回复
 from rest_framework.pagination import PageNumberPagination
 """ 分页"""
 class GoodsPagination(PageNumberPagination):
