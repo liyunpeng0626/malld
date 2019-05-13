@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新经资讯后台管理</title>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/main.css">
+    <script type="text/javascript" src="../../static/admin/js/jquery-1.12.4.min.js"></script>
+    <script src="../../static/admin/tinymce/js/tinymce/tinymce.min.js"></script>
+    
+</head>
+<body>
+<script>
+function change(t){
+    
+	if(t == 't1'){
+		$(".t1").addClass('active')
+		$(".t2").removeClass('active')
+		$(".t3").removeClass('active')
+		$("#b").hide()
+		$("#c").hide()
+		$("#a").show()
+	}else if(t=='t2'){
+		$(".t2").addClass('active')
+		$(".t1").removeClass('active')
+		$(".t3").removeClass('active')
+		$("#a").hide()
+		$("#c").hide()
+		$("#b").show()
+	}else{
+		$(".t3").addClass('active')
+		$(".t1").removeClass('active')
+		$(".t2").removeClass('active')
+		$("#a").hide()
+		$("#b").hide()
+		$("#c").show()
+
+	}
+}
+</script>
+    <div class="breadcrub">
+            当前位置：营销/添加优惠券
+        </div>
+        <div class="pannel">
+        {% if messages %}
+            {% for msg in messages %}
+                {{ msg.message }}
+            {% endfor %}
+        {% endif %}
+            <form class="news_review" method='post' enctype="multipart/form-data">
+                
+            <h3 class="review_title">添加优惠券</h3>
+            <div class="form_group">
+                <label>优惠券类型：</label>
+                <select name='type'>
+                {% for i in list1 %}
+                <option>{{i.name}}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="form_group">
+                <label>优惠券名称：</label>
+                <input type="text" name='name'>
+            </div>
+            <div class="form_group">
+                <label>适用平台：</label>
+                <select name='pingtai'>
+                <option>全平台</option>
+                <option>移动平台</option>
+                <option>PC平台</option>
+                </select>
+            </div>
+            <div class="form_group">
+                <label>总发行量：</label>
+                <input type="text"  name='faxingliang' placeholder='这只能输入正整数'>
+            </div>
+            <div class="form_group">
+                <label>面额：</label>
+                <input type='text' name='miane' placeholder='面值只能是数值，限2位小数'>元
+            </div>
+            <div class="form_group">
+                <label>每人限领：</label>
+                <input type='text' name='xianling'>
+            </div>
+            <div class="form_group">
+                <label>使用门槛：</label>
+                满<input type='text' name='menkan' placeholder='只能输入正整数'>可用
+            </div>
+            <div class="form_group">
+               <label>有效期：</label>
+                开始时间:<input type='text'  name='starttime'>
+                结束时间:<input type="text"  name='endtime'>
+            </div>
+                <div class="form_group">
+					<a href="javascript:change('t1')" class="active t1">全场通用</a>
+                    <div id='a'>备注:<textarea name='beizhu'></textarea></div>
+                    <a href="javascript:change('t2')" class="t2"  >指定分类</a>
+                    <div id='b' style="display:none;">备注:<textarea name='beizhu'></textarea></div>
+					<a href="javascript:change('t3')" class="t3" >指定商品</a>
+                    <div id='c' style="display:none;">备注:<textarea name='beizhu'></textarea></div>
+				</div>
+        
+        </div>
+           
+            <div class="form_group indent_group line_top">
+                <input type="submit" value="提交" class="confirm">
+                <input type="button" value="重置" class="cancel" onclick="cancel()">
+            </div>
+
+            </form>    
+        </div>
+        
+        <script>
+        $(function(){
+            var $radio = $('input[name="action"]');
+            $radio.click(function(){
+                if($(this).index()==1)
+                {
+                    $('.group_hide').show();
+                }
+                else{
+                    $('.group_hide').hide();
+                }
+            });
+
+            tinymce.init({
+                //选择class为content的标签作为编辑器
+                selector: '#rich_content',
+                //方向从左到右
+                directionality:'ltr',
+                //语言选择中文
+                language:'zh_CN',
+                //高度为400
+                height:400,
+                width: '100%',
+                //按tab不换行
+                nonbreaking_force_tab: true,
+                readonly:1
+            });
+            
+            })        
+        </script>    
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>mall</title>
+	<link rel="stylesheet" type="text/css" href="../../static/admin/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../../static/admin/css/main.css">
+	<script type="text/javascript" src="../../static/admin/js/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="../../static/admin/js/jquery.pagination.min.js"></script>
+
+</head>
+
+
+<body>
+	<div class="breadcrub">
+			当前位置：商品/商品品牌管理
+		</div>
+		<div class="pannel">
+		<div>
+		<form method='post'>
+		搜索商品:<input type='text' name='name' placeholder='品牌名称'>
+		<button type='submit'>提交</button>
+		</form>
+		<div>{% if messages %}
+            {% for msg in messages %}
+                {{ msg.message }}
+            {% endfor %}
+        {% endif %}</div>
+		</div>
+			<table class="common_table">
+				<tr>
+					<th width="5%">编号</th>
+					<th width="10%">品牌名称</th>
+					<th width="10%">品牌首字母</th>
+					<th width="10%">排序</th>
+					<th width="10%">品牌制造商</th>
+					<th width="10%">是否显示</th>
+					<th width="20%">相关</th>
+					<th width="15%">操作</th>
+				</tr>
+				{% for mes in brand %}
+				<tr>
+					<th width="5%">{{mes.id}}</th>
+					<th width="10%">{{mes.name}}</th>
+					<th width="10%">{{mes.first}}</th>
+					<th width="10%">{{mes.sort}}</th>
+					{% if mes.is_show == 1%}
+					<th width="10%">是</th>
+					{% else %}
+					<th width="10%">否</th>
+					{% endif %}
+					{% if mes.is_company == 1%}
+					<th width="10%">是</th>
+					{% else %}
+					<th width="10%">否</th>
+					{% endif %}
+					<th width="10%">商品：100 评价：1000</th>
+                    <td width="15%">
+                        <a href="/sadmin/add_brand?id={{mes.id}}" class="edit">编辑</a>
+                        <a href="/sadmin/brand_del?id={{mes.id}}" class="delete">删除</a>
+                    </td>
+				</tr>
+				{% endfor %}
+
+				<tr>
+					<td colspan="8"><a href="/sadmin/add_brand" class="addtype">增加品牌</a></td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="pop_con">
+			<div class="pop">
+				<form>
+					
+					<div class="form_group line_top">
+						<input type="button" value="确定" class="confirm">&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="button" value="取消" class="cancel">
+					</div>
+				</form>
+				
+			</div>
+			
+		</div>
+		<div class="box">
+		<form class='form1'>
+			每页显示<input class="page_count" value="{{page_count}}" name="page_count"/>条
+			<button type='submit'>确定</button>	
+			</form>
+			<div id="pagination" class="page"></div>
+		</div>
+
+        <script>
+			$(function() {
+				$("#pagination").pagination({
+					currentPage: {{current_page}},
+					totalPage: {{total_page}},
+					callback: function(current) {
+						var page_count = $(".page_count").val()
+					    window.location.href="/sadmin/brand?page="+current+"&page_count"+page_count
+					}
+				});
+			});
+		</script>		
+
+
+
+</html>
+

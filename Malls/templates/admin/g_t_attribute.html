@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>mall电商项目</title>
+	<link rel="stylesheet" type="text/css" href="../../static/admin/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../../static/admin/css/main.css">
+	<link rel="stylesheet" href="../../static/admin/css/jquery.pagination.css">
+	<script type="text/javascript" src="../../static/admin/js/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="../../static/admin/js/jquery.pagination.min.js"></script>
+</head>
+<body>
+	<div class="breadcrub" >
+			当前位置：商品>商品类型属性
+			{% comment %} <form class="news_filter_form">
+				<input type="text" placeholder="请输入关键字" class="input_txt" name="keyword" value="{{data.keyword}}">
+				<input type="submit" value="搜 索" class="input_sub">
+			</form> {% endcomment %}
+		</div>
+		<div class="pannel">
+		<div>数据列表&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button><a href='/sadmin/add_type_att'>添加</button></div>
+			<table class="common_table">
+				<tr>
+					<th width="5%">多选操作</th>
+					<th width="5%">编号</th>
+					<th width="10%">属性名称</th>
+					<th width="10%">商品类型</th>
+					<th width="10%">属性值是否可选</th>
+					<th width="10%">属性值的录入方式</th>
+					<th width="25%">可选值列表</th>
+					<th width="10%">排序</th>
+					<th width="15%">操作</th>
+				</tr>
+			
+				<tr>
+				{% for i in list1 %}
+					<td><input type='checkbox'></td>
+					<td class="tleft">{{i.id}}</td>
+					<td class="tleft">{{i.name}}</td>
+					<td class="tleft">服装-T恤</td>
+					{% if i.select_type == 0%}
+					<td class="tleft">唯一</td>
+					{% elif i.select_type == 1 %}
+					<td class="tleft">单选</td>
+					{% else %}
+					<td class="tleft">多选</td>
+					{% endif%}
+					{% if i.input_type == 0%}
+					<td class="tleft">手动录入</td>
+					{% else %}
+					<td class="tleft">从列表中选取</td>
+					{% endif%}
+					<td class="tleft">{{i.input_list}}</td>
+					<td class="tleft">{{i.sort}}</td>
+					<td>
+					<a href="#" class="review">编辑</a>
+					<a href="#" class="review">删除</a>
+					</td>
+					{% endfor %}
+				</tr>
+				
+			</table>
+		</div>
+		
+</body>
+</html>

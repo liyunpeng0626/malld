@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>mall电商项目</title>
+	<link rel="stylesheet" type="text/css" href="../../static/admin/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../../static/admin/css/main.css">
+	<link rel="stylesheet" href="../../static/admin/css/jquery.pagination.css">
+	<script type="text/javascript" src="../../static/admin/js/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="../../static/admin/js/jquery.pagination.min.js"></script>
+</head>
+<body>
+	<div class="breadcrub" >
+			当前位置：商品>商品类型
+			<form class="news_filter_form">
+				<input type="text" placeholder="请输入关键字" class="input_txt" name="keyword" value="{{data.keyword}}">
+				<input type="submit" value="搜 索" class="input_sub">
+			</form>
+		</div>
+		<div class="pannel">
+			<table class="common_table">
+				<tr>
+					<th width="10%">编号</th>
+					<th width="20%">类型名称</th>
+					<th width="10%">属性数量</th>
+					<th width="10%">参数数量</th>
+					<th width="20%">设置</th>
+					<th width="30%">操作</th>
+				</tr>
+			
+				<tr>
+					<td> </td>
+					<td class="tleft"></td>
+					<td class="tleft"></td>
+					<td class="tleft"></td><td>
+					<a href="/sadmin/g_t_attribute" class="review">属性列表</a>
+					<a href="/sadmin/g_t_attribute" class="review">参数列表</a>
+					</td>
+					<td>
+					<a href="#" class="review">编辑</a>
+					<a href="#" class="review">删除</a>
+					</td>
+				</tr>
+				
+			</table>
+		</div>
+		
+</body>
+</html>
