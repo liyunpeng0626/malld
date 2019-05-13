@@ -105,6 +105,10 @@ class CmsSubject(models.Model):
     forward_count = models.IntegerField(blank=True, null=True)
     #专题分类名称'
     category_name = models.CharField(max_length=200, blank=True, null=True)
+    # 副标题
+    subheading = models.CharField(max_length=200, blank=True, null=True)
+    # 价格
+    price = models.DecimalField(max_digits=10, decimal_places=2,blank=True, null=True)
 
     class Meta:
         managed = False
@@ -558,6 +562,7 @@ class PmsBrand(models.Model):
     logo = models.CharField(max_length=255, blank=True, null=True)
     b_logo = models.CharField(max_length=255, blank=True, null=True)
     story = models.TextField(blank=True, null=True)
+    price = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -653,7 +658,7 @@ class PmsSalesPrice(models.Model):
 
 
 
-
+# 商品表
 class Pmsproduct(models.Model):
     id = models.AutoField(primary_key=True)
     brandId = models.BigIntegerField(blank=True, null=True) #品牌id
@@ -711,21 +716,6 @@ class Pmsproduct(models.Model):
 
     class Meta:
         db_table = 'pms_product'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1530,3 +1520,17 @@ class UmsRolePermissionRelation(models.Model):
     class Meta:
         managed = False
         db_table = 'ums_role_permission_relation'
+
+
+# 新闻表
+class News(models.Model):
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=255)
+
+    
+
+
+    class Meta:
+        managed = False
+        db_table = 'news'
+

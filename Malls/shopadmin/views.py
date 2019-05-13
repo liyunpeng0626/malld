@@ -11,9 +11,6 @@ from django.core.paginator import Paginator
 from shopadmin.serializers import *
 import time
 # Create your views here.
-
-# 带蝴蝶好好的
-# 后返回回复
 from rest_framework.pagination import PageNumberPagination
 """ 分页"""
 class GoodsPagination(PageNumberPagination):
@@ -42,11 +39,11 @@ class Goodslist(APIView):
         page_goods = pages.paginate_queryset(queryset=goods,request=request, view=self)
         goods_serializer = PmsproductModelSerializer(goods,many=True)
 
-       mes={}
-       mes['code']=200
-       mes['list']=goods_serializer.data
+        mes={}
+        mes['code']=200
+        mes['list']=goods_serializer.data
        
-       return Response(mes)
+        return Response(mes)
 
 class Del_goods(APIView):
     def get(self,request):

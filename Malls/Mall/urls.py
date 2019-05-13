@@ -15,11 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include,re_path
+from rest_framework.documentation import include_docs_urls
+
 
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('sadmin/',include('shopadmin.urls')),
+    
+    re_path(r'^docs/',include_docs_urls(title='API接口文档')),
+    # path('admin/', admin.site.urls),
+    # path('sadmin/',include('shopadmin.urls')),
+    path('',include('api.urls')),
 
-]
+]       
