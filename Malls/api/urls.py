@@ -44,6 +44,8 @@ urlpatterns = [
     path('subject_list',views.Subject_list.as_view()),
     # 猜你喜欢
     path('cai_list',views.Cai_list.as_view()),
+    # 话题详情路由
+    path('topic_list',views.Topic_list.as_view()),
     
 
 ]

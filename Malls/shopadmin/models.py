@@ -161,6 +161,8 @@ class CmsTopic(models.Model):
     create_time = models.DateTimeField(blank=True, null=True)
     start_time = models.DateTimeField(blank=True, null=True)
     end_time = models.DateTimeField(blank=True, null=True)
+    # 话题详情图片
+    pic = models.CharField(max_length=255, blank=True, null=True)
     #参与人数
     attend_count = models.IntegerField(blank=True, null=True)
     #关注人数

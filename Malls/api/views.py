@@ -44,7 +44,7 @@ class Brand_list(APIView):
     '''
     def get(self,request):
 
-        brand = PmsBrand.objects.all().order_by('price')[0:4]
+        brand = PmsBrand.objects.all().order_by('price')[0:6]
         brand_s =PmsbrandModelSerializer(brand,many=True)
         mes = {}
         mes['code'] = 200
@@ -139,6 +139,25 @@ class Cai_list(APIView):
         mes['code'] = 200
         mes['goods'] = goods_s.data
         return Response(mes)
+
+
+# 话题详情表展示
+class Topic_list(APIView):
+    '''
+    话题详情表展示
+    '''
+    def get(self,request):
+
+        topic = CmsTopic.objects.all()
+        topic_s = CmsTopicModelSerializer(topic,many=True)
+        mes = {}
+        mes['code'] = 200
+        mes['topic'] = topic_s.data
+        return Response(mes)
+
+
+
+
 
 
 

@@ -55,6 +55,13 @@ class CmsSubjectModelSerializer(serializers.ModelSerializer):
         # fields='__all__'
         fields=("pic",'title','subheading','price')
 
+class CmsTopicModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model =CmsTopic
+        fields='__all__'
+        # fields=("pic",'name','','price')
+
+
 
         
 
