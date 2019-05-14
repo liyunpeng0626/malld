@@ -67,17 +67,45 @@ class Activity_list(APIView):
 
 
 # 秒杀活动时间展示页
-class Activity_time_list(APIView):
+class IndexSmsFlashPromotionSession(APIView): # 秒杀时间段(天)
     '''
- 秒杀活动时间展示页
+    首页秒杀时间段
     '''
     def get(self,request):
-
-        activity_time = SmsFlashPromotionSession.objects.all()
-        activity_time_s = SmsFlashPromotionSessionModelSerializer(activity_time,many=True)
         mes = {}
+        # d = time.strftime("%Y/%m/%d")
+        # print(d)
+        # try:
+        S = SmsFlashPromotionSession.objects.filter(status=1).all()[0:1]
+        slist = []
+        for i in S:
+            sdict = {}
+            sdict['id'] = i.id
+            sdict['name'] = i.name
+            sdict['start_time'] = i.start_time
+            sdict['end_time'] = i.end_time
+            aa = SmsFlashPromotionProductRelation.objects.filter(flash_promotion_session_id=i.id).all()
+            sslist = []
+            for j in aa:
+                aaa = Pmsproduct.objects.filter(id=j.product_id)
+                for l in aaa:
+                    adict = {}
+                    adict['id'] = l.id
+                    adict['name'] = l.name
+                    adict['price'] = l.price
+                    adict['subTitle'] = l.subTitle
+                    SMS = SmsFlashPromotionProductRelation.objects.filter(product_id=l.id).first()
+                    adict['flash_promotion_price'] = SMS.flash_promotion_price
+                    sslist.append(adict)
+            sdict['list'] = sslist
+            slist.append(sdict)
         mes['code'] = 200
-        mes['activity_time'] = activity_time_s.data
+        mes['message'] = '成功'
+        mes['data'] = slist
+        # except:
+
+            # mes['code'] = 10010
+            # mes['message'] = '失败'
         return Response(mes)
 
 
@@ -154,6 +182,104 @@ class Topic_list(APIView):
         mes['code'] = 200
         mes['topic'] = topic_s.data
         return Response(mes)
+
+
+
+
+# 分类页展示
+class Product_category(APIView):
+    '''
+    分类页展示数据
+    '''
+    def get(self,request):
+        category = PmsProductCategory.objects.filter(level_l=0).all()
+        l_list = []
+        for cate in category:
+            l_dict = {}
+            l_dict['id'] = cate.id
+            l_dict['name'] = cate.name
+            two_cate = PmsProductCategory.objects.filter(parent_id=cate.id).all()
+            m_list = []
+            for two in two_cate:
+                m_dict = {}
+                m_dict['id'] = two.id
+                m_dict['name'] = two.name
+                m_dict['image'] = two.image
+                m_list.append(m_dict)
+            l_dict['list'] = m_list
+            l_list.append(l_dict)
+
+        category_s =PmsProductCategoryModelSerializer(category,many=True)
+        mes = {}
+        mes['code'] = 200
+        mes['advertising'] = l_list
+        return Response(mes)
+
+
+
+
+# 分类专题展示与专题
+class Subject_category(APIView):
+    '''
+    专题分类与专题详情展示
+    '''
+    def get(self,request):
+        l_list = []
+        cate_show_detail = CmsSubjectCategory.objects.all()
+        for item in cate_show_detail:
+            l_dict = {}
+            l_dict['id'] = item.id
+            l_dict['name'] = item.name
+            l_dict['icon'] = item.icon
+            la = CmsSubject.objects.filter(category_id=item.id).all()
+            j_list = []
+            for j in la:
+                j_dict = {}
+                j_dict['title'] = j.title
+                j_dict['pic'] = j.pic
+                j_dict['category_name'] = j.category_name
+                j_dict['subheading'] = j.subheading
+                j_dict['price'] = j.price
+                j_dict['read_count'] = j.read_count
+                #收藏次数
+                j_dict['collect_count'] = j.collect_count
+                #评论次数
+                j_dict['comment_count'] = j.comment_count
+                j_list.append(j_dict)
+            l_dict['list'] = j_list
+            l_list.append(l_dict)
+        mes = {}
+        mes['code'] = 200
+        mes['category'] = l_list
+        return Response(mes)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

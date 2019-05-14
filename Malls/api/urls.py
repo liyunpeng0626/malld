@@ -35,7 +35,7 @@ urlpatterns = [
     # 秒杀活动展示路由
     path('activity_list',views.Advertising_list.as_view()),
     # 秒杀活动时间路由
-    path('activity_time_list',views.Activity_time_list.as_view()),
+    # path('activity_time_list',views.Activity_time_list.as_view()),
     # 新鲜好物路由
     path('goods_list',views.Goods_list.as_view()),
     # 人气推荐路由
@@ -46,6 +46,9 @@ urlpatterns = [
     path('cai_list',views.Cai_list.as_view()),
     # 话题详情路由
     path('topic_list',views.Topic_list.as_view()),
-    
+    # 商品分类展示路由
+    path('proudct_category',views.Product_category.as_view()),
+    # 专题分类路由
+    path('subject_category',views.Subject_category.as_view()),
 
 ]

@@ -90,16 +90,23 @@ class CmsSubject(models.Model):
     pic = models.CharField(max_length=500, blank=True, null=True)
     #关联产品数量
     product_count = models.IntegerField(blank=True, null=True)
+    # 是否推荐
     recommend_status = models.IntegerField(blank=True, null=True)
+    # 添加时间
     create_time = models.DateTimeField(blank=True, null=True)
+    # 收集数量
     collect_count = models.IntegerField(blank=True, null=True)
+    # 总阅读量
     read_count = models.IntegerField(blank=True, null=True)
+    # 评论总数
     comment_count = models.IntegerField(blank=True, null=True)
     #画册图片用逗号分割
     album_pics = models.CharField(max_length=1000, blank=True, null=True)
+    # 描述
     description = models.CharField(max_length=1000, blank=True, null=True)
     #显示状态：0->不显示；1->显示'
     show_status = models.IntegerField(blank=True, null=True)
+    # 内容
     content = models.TextField(blank=True, null=True)
     #转发数
     forward_count = models.IntegerField(blank=True, null=True)
@@ -119,7 +126,7 @@ class CmsSubjectCategory(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, blank=True, null=True)
     #分类图标
-    icon = models.CharField(max_length=500, blank=True, null=True)
+    icon = models.CharField(max_length=255, blank=True, null=True)
     #专题数量
     subject_count = models.IntegerField(blank=True, null=True)
     show_status = models.IntegerField(blank=True, null=True)
