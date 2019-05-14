@@ -13,7 +13,7 @@ class SmsHomeAdvertiseModelSerializer(serializers.ModelSerializer):
         model =SmsHomeAdvertise
         fields = ('pic',)
         # fields='__all__'
-# 新闻展示
+
 class NewsModelSerializer(serializers.ModelSerializer):
     class Meta:
         model =News
@@ -25,30 +25,6 @@ class PmsbrandModelSerializer(serializers.ModelSerializer):
         model =PmsBrand
         fields = ('name','price','logo')
         # fields='__all__'
-
-
-
-# 首页秒杀列表
-class FlashProductModelSerializer(serializers.ModelSerializer):
-    product_detail = serializers.SerializerMethodField()
-
-    class Meta:
-        model = SmsFlashPromotionProductRelation
-        fields = ('__all__')
-
-        def get_product_detail(self, obj):
-            product = Pmsproduct.objects.get(id=obj.product_id)
-            product_serializer = ProductDetailModelSerializer(product)
-            return product_serializer.data  
-
-
-
-# 首页各种活动展示的商品
-class ProductDetailModelSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Pmsproduct
-        fields = ("sub_title", "name", "pic", "price")
 
 
 # 秒杀活动展示
@@ -72,15 +48,12 @@ class PmsproductModelSerializer(serializers.ModelSerializer):
         # fields='__all__'
         fields=("pic",'name','subTitle','originalPrice')
 
-
 # 专题优选展示页面
 class CmsSubjectModelSerializer(serializers.ModelSerializer):
     class Meta:
         model =CmsSubject
         # fields='__all__'
         fields=("pic",'title','subheading','price')
-
-
 
 
         

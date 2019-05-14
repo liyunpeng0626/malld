@@ -4,7 +4,6 @@ from rest_framework.views import APIView
 from api.serializers import *
 from rest_framework.response import Response
 from shopadmin.models import *
-from datetime import datetime,time
 
 
 # 轮播图列表页
@@ -36,6 +35,7 @@ class News_list(APIView):
         return Response(mes)
 
 
+
 # 品牌列表页
 class Brand_list(APIView):
     
@@ -50,7 +50,6 @@ class Brand_list(APIView):
         mes['code'] = 200
         mes['brand'] = brand_s.data 
         return Response(mes)
-
 
 # 秒杀活动展示页
 class Activity_list(APIView):
@@ -67,48 +66,19 @@ class Activity_list(APIView):
         return Response(mes)
 
 
-class IndexSmsFlashPromotionSession(APIView): # 秒杀时间段(天)
+# 秒杀活动时间展示页
+class Activity_time_list(APIView):
     '''
-    首页秒杀时间段
+ 秒杀活动时间展示页
     '''
     def get(self,request):
+
+        activity_time = SmsFlashPromotionSession.objects.all()
+        activity_time_s = SmsFlashPromotionSessionModelSerializer(activity_time,many=True)
         mes = {}
-        # d = time.strftime("%Y/%m/%d")
-        # print(d)
-        # try:
-        S = SmsFlashPromotionSession.objects.filter(status=1).all()[0:1]
-        slist = []
-        for i in S:
-            sdict = {}
-            sdict['id'] = i.id
-            sdict['name'] = i.name
-            sdict['start_time'] = i.start_time
-            sdict['end_time'] = i.end_time
-            aa = SmsFlashPromotionProductRelation.objects.filter(flash_promotion_session_id=i.id).all()
-            sslist = []
-            for j in aa:
-                aaa = Pmsproduct.objects.filter(id=j.product_id)
-                for l in aaa:
-                    adict = {}
-                    adict['id'] = l.id
-                    adict['name'] = l.name
-                    adict['price'] = l.price
-                    adict['subTitle'] = l.subTitle
-                    SMS = SmsFlashPromotionProductRelation.objects.filter(product_id=l.id).first()
-                    adict['flash_promotion_price'] = SMS.flash_promotion_price
-                    sslist.append(adict)
-            sdict['list'] = sslist
-            slist.append(sdict)
         mes['code'] = 200
-        mes['message'] = '成功'
-        mes['data'] = slist
-        # except:
-
-            # mes['code'] = 10010
-            # mes['message'] = '失败'
+        mes['activity_time'] = activity_time_s.data
         return Response(mes)
-
-
 
 
 # 新鲜好物展示页
@@ -139,7 +109,6 @@ class Goodss_list(APIView):
         mes['code'] = 200
         mes['goods'] = goods_s.data
         return Response(mes)
-
 
 # 专题推荐
 class Subject_list(APIView):

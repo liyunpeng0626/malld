@@ -32,12 +32,10 @@ urlpatterns = [
     path('news_list',views.News_list.as_view()),
     # 品牌展示路由
     path('brand_list',views.Brand_list.as_view()),
-
-    # path('indexflash',views.IndexFlashProduct.as_view()),
     # 秒杀活动展示路由
     path('activity_list',views.Advertising_list.as_view()),
     # 秒杀活动时间路由
-    # path('activity_time_list',views.Activity_time_list.as_view()),
+    path('activity_time_list',views.Activity_time_list.as_view()),
     # 新鲜好物路由
     path('goods_list',views.Goods_list.as_view()),
     # 人气推荐路由
@@ -46,8 +44,6 @@ urlpatterns = [
     path('subject_list',views.Subject_list.as_view()),
     # 猜你喜欢
     path('cai_list',views.Cai_list.as_view()),
-
-    path('seckill_list',views.IndexSmsFlashPromotionSession.as_view()),
     
 
 ]
