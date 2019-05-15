@@ -4,6 +4,16 @@ from rest_framework.views import APIView
 from api.serializers import *
 from rest_framework.response import Response
 from shopadmin.models import *
+from django_redis import get_redis_connection
+
+
+# 连接
+class Index(APIView):
+    def get(self,request):
+        conn = get_redis_connection('default')
+        print(conn.get("name"))
+        return Response('ok')
+
 
 
 # 轮播图列表页
@@ -169,23 +179,6 @@ class Cai_list(APIView):
         return Response(mes)
 
 
-# 话题详情表展示
-class Topic_list(APIView):
-    '''
-    话题详情表展示
-    '''
-    def get(self,request):
-
-        topic = CmsTopic.objects.all()
-        topic_s = CmsTopicModelSerializer(topic,many=True)
-        mes = {}
-        mes['code'] = 200
-        mes['topic'] = topic_s.data
-        return Response(mes)
-
-
-
-
 # 分类页展示
 class Product_category(APIView):
     '''
@@ -217,7 +210,6 @@ class Product_category(APIView):
 
 
 
-
 # 分类专题展示与专题
 class Subject_category(APIView):
     '''
@@ -246,12 +238,192 @@ class Subject_category(APIView):
                 #评论次数
                 j_dict['comment_count'] = j.comment_count
                 j_list.append(j_dict)
-            l_dict['list'] = j_list
+        l_dict['list'] = j_list
+        l_list.append(l_dict)
+        mes = {}
+        mes['code'] = 200
+        mes['category'] = l_list
+        return Response(mes)
+
+
+# 话题详情表展示
+class Topic_list(APIView):
+    '''
+    话题详情表展示
+    '''
+    def get(self,request):
+
+        topic = CmsTopic.objects.all()
+        topic_s = CmsTopicModelSerializer(topic,many=True)
+        mes = {}
+        mes['code'] = 200
+        mes['topic'] = topic_s.data
+        return Response(mes)
+
+# 话题分类展示页
+class Topic_category(APIView):
+    '''
+    话题分类展示页
+    '''
+    def get(self,request):
+
+        topic_category = CmsTopicCategory.objects.all()
+        topic_category_s = CmsTopicCategoryModelSerializer(topic_category,many=True)
+        mes = {}
+        mes['code'] = 200
+        mes['topic_category'] = topic_category_s.data
+        return Response(mes)
+
+# 话题分类详情页
+class Topic_category_details(APIView):
+    '''
+    话题分类详情页
+    '''
+    def get(self,request):
+
+        l_list = []
+        cate_show_detail = CmsTopicCategory.objects.all()
+        for item in cate_show_detail:
+            l_dict = {}
+            l_dict['id'] = item.id
+            l_dict['name'] = item.name
+            l_dict['icon'] = item.icon
+            la = CmsTopic.objects.filter(category_id=item.id).all()
+            j_list = []
+            for j in la:
+                j_dict = {}
+                j_dict['name'] = j.name
+                j_dict['pic'] = j.pic
+                j_dict['create_time'] = j.create_time
+                j_dict['read_count'] = j.read_count
+                j_dict['attention_count'] = j.attention_count
+                j_dict['attend_count'] = j.attend_count
+                j_dict['label'] = j.label
+
+                j_list.append(j_dict)
+            l_dict['topic_list'] = j_list
             l_list.append(l_dict)
         mes = {}
         mes['code'] = 200
         mes['category'] = l_list
         return Response(mes)
+        
+    
+# 话题评论展示页
+class Topic_comment(APIView):
+    '''
+    话题评论数据展示
+    '''
+    def get(self,request):
+
+        topic_comment = CmsTopicComment.objects.all()
+        topic_comment_s = CmsTopicCommentModelSerializer(topic_comment,many=True)
+        mes = {}
+        mes['code'] = 200
+        mes['topic_comment'] = topic_comment_s.data
+        return Response(mes)
+
+
+# 话题分类与话题详情关联
+class Topic_category_guan(APIView):
+    '''
+    话题分类与话题详情与话题评论关联
+    '''
+    def get(self,request):
+        l_list = []
+        cate_show_detail = CmsTopicCategory.objects.all()
+        for item in cate_show_detail:
+            l_dict = {}
+            l_dict['id'] = item.id
+            l_dict['name'] = item.name
+            la = CmsTopic.objects.filter(category_id=item.id).all()
+            j_list = []
+            for j in la:
+                j_dict = {}
+                j_dict['id'] = j.id
+                j_dict['name'] = j.name
+                j_dict['pic'] = j.pic
+                j_dict['create_time'] = j.create_time
+                j_dict['read_count'] = j.read_count
+                j_dict['attention_count'] = j.attention_count
+                j_dict['attend_count'] = j.attend_count
+                j_dict['label'] =j.label
+                fen = CmsTopicComment.objects.filter(topic_id = j.id).order_by('-like_count')[:1]
+                f_list = []
+                for f in fen:   
+                    f_dict = {}
+                    f_dict['member_nick_name'] = f.member_nick_name
+                    f_dict['member_icon'] = f.member_icon
+                    f_dict['content'] = f.content
+                    f_dict['create_time'] = f.create_time
+                    f_dict['like_count'] = f.like_count
+                    f_dict['comment_count'] = f.comment_count
+                    f_list.append(f_dict)
+                j_dict['comment_list'] = f_list
+                j_list.append(j_dict)
+            l_dict['topic_list'] = j_list
+            l_list.append(l_dict)
+        mes = {}
+        mes['code'] = 200
+        mes['topic_category'] = l_list
+        return Response(mes)
+
+
+# 品牌制造商详情页
+class Brand_details(APIView):
+    '''
+    品牌制造商详情页
+    '''
+    def get(request,self):
+
+        brand = PmsBrand.objects.all()
+        brand_s = PmsbrandDetaileModelSerializer(brand,many=True)
+        mes = {}    
+        mes['code'] = 200
+        mes['brand'] = brand_s.data 
+        return Response(mes)
+
+# 优选区展示优选推荐页面
+class PrefrenceArea_recommend(APIView):
+    '''
+    优选区展示优选推荐页面
+    '''
+    def get(request,self):
+
+        l_list = []
+        cate_show_detail = CmsPrefrenceArea.objects.all()[:3]
+        for item in cate_show_detail:
+            l_dict = {}
+            l_dict['id'] = item.id
+            l_dict['name'] = item.name
+            l_dict['sub_title'] = item.sub_title
+            l_dict['pic'] = item.pic
+
+            la = Pmsproduct.objects.filter(area_id=item.id).all()[:2]
+            j_list = []
+            for j in la:
+                j_dict = {}
+                j_dict['pic'] = j.pic
+                j_dict['name'] = j.name
+                j_dict['subTitle'] = j.subTitle
+                j_dict['price'] = j.price
+                
+                j_list.append(j_dict)
+            l_dict['proudct_list'] = j_list
+            l_list.append(l_dict)
+        mes = {}
+        mes['code'] = 200
+        mes['area_list'] = l_list
+        return Response(mes)
+
+
+
+
+
+
+
+
+
 
 
 

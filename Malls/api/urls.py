@@ -25,13 +25,15 @@ from django.views.static import serve
 
 urlpatterns = [
 
-    # path('',views.IndexPic.as_view()),
+    # path('',views.Index.as_view()),
     # 轮播图展示路由
     path('advertising_list',views.Advertising_list.as_view()),
     # 新闻展示路由
     path('news_list',views.News_list.as_view()),
     # 品牌展示路由
     path('brand_list',views.Brand_list.as_view()),
+    # 品牌详情展示路由
+    path('brand_detail',views.Brand_details.as_view()),
     # 秒杀活动展示路由
     path('activity_list',views.Advertising_list.as_view()),
     # 秒杀活动时间路由
@@ -44,11 +46,24 @@ urlpatterns = [
     path('subject_list',views.Subject_list.as_view()),
     # 猜你喜欢
     path('cai_list',views.Cai_list.as_view()),
-    # 话题详情路由
-    path('topic_list',views.Topic_list.as_view()),
+    
     # 商品分类展示路由
     path('proudct_category',views.Product_category.as_view()),
     # 专题分类路由
     path('subject_category',views.Subject_category.as_view()),
+    # 话题详情路由
+    path('topic_list',views.Topic_list.as_view()),
+    # 话题分类路由
+    path('topic_category',views.Topic_category.as_view()),
+    # 话题评论路由
+    path('topic_comment',views.Topic_comment.as_view()),
+    # 话题分类详情页路由
+    path('topic_category_detaile',views.Topic_category_details.as_view()),
+    # 话题分类与话题与话题评论关联路由
+    path('topic_category_guan',views.Topic_category_guan.as_view()),
+    # 优选区展示优选推荐路由
+    path('prefrenceArea_recommend',views.PrefrenceArea_recommend.as_view()),
+    
+    
 
 ]

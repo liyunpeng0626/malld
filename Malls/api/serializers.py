@@ -26,6 +26,12 @@ class PmsbrandModelSerializer(serializers.ModelSerializer):
         fields = ('name','price','logo')
         # fields='__all__'
 
+# 品牌详情展示
+class PmsbrandDetaileModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PmsBrand
+        fields = ('b_logo','logo','name','describe','location','like_count','attention_count','story')
+
 
 # 秒杀活动展示
 class SmsFlashPromotionModelSerializer(serializers.ModelSerializer):
@@ -55,23 +61,47 @@ class CmsSubjectModelSerializer(serializers.ModelSerializer):
         # fields='__all__'
         fields=("pic",'title','subheading','price')
 
-class CmsTopicModelSerializer(serializers.ModelSerializer):
+# 商品分类页面
+class PmsProductCategoryModelSerializer(serializers.ModelSerializer):
     class Meta:
-        model =CmsTopic
-        fields='__all__'
-        # fields=("pic",'name','','price')
+        model = PmsProductCategory
+        fields = '__all__'
+        # fields = ("name","icon")
 
+
+# 专题分类页面
 class CmsSubjectcategoryModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = CmsSubjectCategory
         # fields = '__all__'
         fields = ("name","icon")
 
-class PmsProductCategoryModelSerializer(serializers.ModelSerializer):
+
+
+# 话题详情展示页面
+class CmsTopicModelSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PmsProductCategory
-        fields = '__all__'
-        # fields = ("name","icon")
+        model =CmsTopic
+        fields='__all__'
+        # fields=("pic",'name','','price')
+
+
+# 话题分类展示页面
+class CmsTopicCategoryModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model =CmsTopicCategory
+        # fields='__all__'
+        fields=("name",'icon')
+
+# 话题评论展示页面
+class CmsTopicCommentModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model =CmsTopicComment
+        # fields='__all__'
+        fields=("member_nick_name",'member_icon','content','create_time','like_count','comment_count')
+
+
+
 
 
 

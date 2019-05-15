@@ -64,7 +64,9 @@ class CmsPrefrenceArea(models.Model):
     sub_title = models.CharField(max_length=255, blank=True, null=True)
     #展示图片
     pic = models.CharField(max_length=500, blank=True, null=True)
+    # 排序
     sort = models.IntegerField(blank=True, null=True)
+    # 显示的状态
     show_status = models.IntegerField(blank=True, null=True)
 
     class Meta:
@@ -174,12 +176,16 @@ class CmsTopic(models.Model):
     attend_count = models.IntegerField(blank=True, null=True)
     #关注人数
     attention_count = models.IntegerField(blank=True, null=True)
+    # 阅读总数
     read_count = models.IntegerField(blank=True, null=True)
     #奖品名称
     award_name = models.CharField(max_length=100, blank=True, null=True)
     #参与方式
     attend_type = models.CharField(max_length=100, blank=True, null=True)
+    # 信息
     content = models.TextField(blank=True, null=True)
+    # 标签
+    label = models.CharField(max_length=30, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -194,21 +200,32 @@ class CmsTopicCategory(models.Model):
     #专题数量
     subject_count = models.IntegerField(blank=True, null=True)
     show_status = models.IntegerField(blank=True, null=True)
+
     sort = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'cms_topic_category'
 
-#专题评论表
+#话题评论表
 class CmsTopicComment(models.Model):
     id = models.AutoField(primary_key=True)
+    # 评论的姓名
     member_nick_name = models.CharField(max_length=255, blank=True, null=True)
+    # 话题详情id
     topic_id = models.BigIntegerField(blank=True, null=True)
+    # 评论人的头像
     member_icon = models.CharField(max_length=255, blank=True, null=True)
+    # 评论信息
     content = models.CharField(max_length=1000, blank=True, null=True)
+    # 评论的时间
     create_time = models.DateTimeField(blank=True, null=True)
+    # 显示状态
     show_status = models.IntegerField(blank=True, null=True)
+    # 点赞总数量
+    like_count = models.IntegerField(blank=True, null=True)
+    # 评论总数量
+    comment_count = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -572,6 +589,10 @@ class PmsBrand(models.Model):
     b_logo = models.CharField(max_length=255, blank=True, null=True)
     story = models.TextField(blank=True, null=True)
     price = models.IntegerField(blank=True, null=True)
+    location = models.CharField(max_length=30, blank=True, null=True)
+    describe = models.CharField(max_length=50, blank=True, null=True)
+    like_count = models.IntegerField(blank=True, null=True)
+    attention_count = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -666,7 +687,6 @@ class PmsSalesPrice(models.Model):
         db_table = 'pms_sales_price'
 
 
-
 # 商品表
 class Pmsproduct(models.Model):
     id = models.AutoField(primary_key=True)
@@ -721,7 +741,8 @@ class Pmsproduct(models.Model):
     # 促销类型：0->没有促销使用原价;1->使用促销价；2->使用会员价；3->使用阶梯价格；4->使用满减价格；5->限时购
     brandName = models.CharField(max_length=255, blank=True, null=True) # 品牌名称
     productCategoryName = models.CharField(max_length=255, blank=True, null=True)# 产品分类名称
-
+    area_id = models.IntegerField(blank=True, null=True) #关联优选表id
+ 
 
     class Meta:
         db_table = 'pms_product'
@@ -1535,9 +1556,6 @@ class UmsRolePermissionRelation(models.Model):
 class News(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
-
-    
-
 
     class Meta:
         managed = False
