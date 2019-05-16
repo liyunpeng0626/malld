@@ -100,8 +100,50 @@ class CmsTopicCommentModelSerializer(serializers.ModelSerializer):
         # fields='__all__'
         fields=("member_nick_name",'member_icon','content','create_time','like_count','comment_count')
 
+class CmsPrefrenceAreaModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CmsPrefrenceArea
+        fields = '__all__'
 
 
+
+# #优选专区及以下商品展示
+# class CmsPrefrenceAreaddModelSerializer(serializers.ModelSerializer):
+#     you_type = serializers.SerializerMethodField()
+#     goods_type = serializers.SerializerMethodField()
+#     class Meta:
+#         model = CmsPrefrenceAreaProductRelation
+#         fields = '__all__'
+
+#         def get_you_type(self,obj):
+#             spe_c = CmsPrefrenceArea.objects.filter(id=obj.prefrence_area_id).all()[:3]
+#             spe_cate = CmsPrefrenceAreaModelSerializer(spe_c, many=True)
+#             return spe_cate.data
+
+#         def get_goods_type(self,obj):
+#             good_s = Pmsproduct.obljects.filter(id=obj.product_id,newStatus=1).all()[:2]
+#             g_data = PmsProductSerializer(good_s,many=True)
+#             return g_data.data
+
+
+#优选专区及以下商品展示
+class CmsPrefrenceAreaProductRelationModelSerializer(serializers.ModelSerializer):
+    you_type = serializers.SerializerMethodField()
+    goods_type = serializers.SerializerMethodField()
+    class Meta:
+        model = CmsPrefrenceAreaProductRelation
+        fields = '__all__'
+
+        def get_you_type(self,obj):
+            print(obj.prefrence_area_id,'***************************')
+            spe_c = CmsPrefrenceArea.objects.filter(id=obj.prefrence_area_id)[:2]
+            spe_cate = CmsPrefrenceAreaModelSerializer(spe_c, many=True)
+            return spe_cate.data
+
+        def get_goods_type(self,obj):
+            good_s = Pmsproduct.objects.filter(id=obj.product_id,newStatus=1)
+            g_data = PmsProductsSerializer(good_s,many=True)
+            return g_data.data
 
 
 

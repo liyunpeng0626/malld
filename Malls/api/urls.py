@@ -35,9 +35,11 @@ urlpatterns = [
     # 品牌详情展示路由
     path('brand_detail',views.Brand_details.as_view()),
     # 秒杀活动展示路由
-    path('activity_list',views.Advertising_list.as_view()),
+    path('activity_list',views.Activity_list.as_view()),
     # 秒杀活动时间路由
     # path('activity_time_list',views.Activity_time_list.as_view()),
+    # 首页秒杀时间段
+    path('indexSmsFlashPromotionSession',views.IndexSmsFlashPromotionSession.as_view()),
     # 新鲜好物路由
     path('goods_list',views.Goods_list.as_view()),
     # 人气推荐路由
@@ -63,6 +65,7 @@ urlpatterns = [
     path('topic_category_guan',views.Topic_category_guan.as_view()),
     # 优选区展示优选推荐路由
     path('prefrenceArea_recommend',views.PrefrenceArea_recommend.as_view()),
+    path('dfg',views.gfhhhgh.as_view())
     
     
 

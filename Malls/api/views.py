@@ -418,6 +418,38 @@ class PrefrenceArea_recommend(APIView):
 
 
 
+# 特惠详情页面展示
+class gfhhhgh(APIView):
+    def get(request,self):
+
+        area = CmsPrefrenceAreaProductRelation.objects.all()
+        area_s = CmsPrefrenceAreaProductRelationModelSerializer(area,many=True)
+        mes = {}
+        mes['code'] = 200
+        mes['area'] = area_s.data
+        return Response(mes)
+
+
+# 特惠详情页面展示
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+
+
+
+
+
+
 
 
 
