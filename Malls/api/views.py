@@ -7,6 +7,8 @@ from shopadmin.models import *
 from django_redis import get_redis_connection
 
 
+
+
 # 连接
 class Index(APIView):
     def get(self,request):
@@ -94,10 +96,10 @@ class IndexSmsFlashPromotionSession(APIView): # 秒杀时间段(天)
             sdict['name'] = i.name
             sdict['start_time'] = i.start_time
             sdict['end_time'] = i.end_time
-            aa = SmsFlashPromotionProductRelation.objects.filter(flash_promotion_session_id=i.id).all()
+            aa = SmsFlashPromotionProductRelation.objects.filter(flash_promotion_session_id=i.id)
             sslist = []
             for j in aa:
-                aaa = Pmsproduct.objects.filter(id=j.product_id)
+                aaa = Pmsproduct.objects.filter(id=j.product_id).all()
                 for l in aaa:
                     adict = {}
                     adict['id'] = l.id
@@ -107,16 +109,16 @@ class IndexSmsFlashPromotionSession(APIView): # 秒杀时间段(天)
                     SMS = SmsFlashPromotionProductRelation.objects.filter(product_id=l.id).first()
                     adict['flash_promotion_price'] = SMS.flash_promotion_price
                     sslist.append(adict)
-            sdict['list'] = sslist
-            slist.append(sdict)
-        mes['code'] = 200
-        mes['message'] = '成功'
-        mes['data'] = slist
-        # except:
+                sdict['list'] = sslist
+                slist.append(sdict)
+            mes['code'] = 200
+            mes['message'] = '成功'
+            mes['data'] = slist
+            # except:
 
             # mes['code'] = 10010
             # mes['message'] = '失败'
-        return Response(mes)
+            return Response(mes)
 
 
 # 新鲜好物展示页
@@ -383,6 +385,45 @@ class Brand_details(APIView):
         mes['brand'] = brand_s.data 
         return Response(mes)
 
+# 品牌详情相关商品
+class Product_Count(APIView):
+    '''
+    品牌详情相关商品页面
+    根据你点击的品牌ID获取数据，获取品牌下商品的总数量
+    '''
+
+    def get(self,request):
+        id = request.GET.get('id')
+
+        product = Pmsproduct.objects.filter(brandId = id).count()
+
+        mes = {}    
+        mes['code'] = 200
+        mes['count'] = product
+        return Response(mes)
+
+
+
+
+# 品牌详情相关商品
+class Product_XG(APIView):
+    '''
+    品牌详情相关商品页面
+    根据你点击的品牌ID获取数据，id为1的数据比较全面
+    '''
+
+    def get(self,request):
+        id = request.GET.get('id')
+
+        product = Pmsproduct.objects.filter(brandId = id).all()
+        product_s = PmsproductModelSerializer(product,many=True)
+        mes = {}    
+        mes['code'] = 200
+        mes['XG'] = product_s.data 
+        return Response(mes)
+
+
+
 # 优选区展示优选推荐页面
 class PrefrenceArea_recommend(APIView):
     '''
@@ -399,7 +440,7 @@ class PrefrenceArea_recommend(APIView):
             l_dict['sub_title'] = item.sub_title
             l_dict['pic'] = item.pic
 
-            la = Pmsproduct.objects.filter(area_id=item.id).all()[:2]
+            la = Pmsproduct.objects.filter(area_id=item.id,newStatus=1).all()[:4]
             j_list = []
             for j in la:
                 j_dict = {}
@@ -419,18 +460,109 @@ class PrefrenceArea_recommend(APIView):
 
 
 # 特惠详情页面展示
-class gfhhhgh(APIView):
+class Sales_price(APIView):
+    '''
+    特惠详情页面展示
+    '''
     def get(request,self):
 
-        area = CmsPrefrenceAreaProductRelation.objects.all()
-        area_s = CmsPrefrenceAreaProductRelationModelSerializer(area,many=True)
+        l_list = []
+        cate_show_detail = PmsSalesPrice.objects.all()
+    
+        for item in cate_show_detail:
+            l_dict = {}
+            l_dict['id'] = item.id
+            l_dict['title'] = item.title
+            l_dict['sub_title'] = item.sub_title
+
+            la = Pmsproduct.objects.filter(sales_id=item.id).all()
+            j_list = []
+            for j in la:
+                j_dict = {}
+                j_dict['name'] = j.name
+                j_dict['description'] = j.description
+                j_dict['promotionPrice'] = j.promotionPrice
+                j_list.append(j_dict)
+            l_dict['proudct_list'] = j_list
+            l_list.append(l_dict)
         mes = {}
         mes['code'] = 200
-        mes['area'] = area_s.data
+        mes['sales_list'] = l_list
+        return Response(mes)
+
+# 商品详情页
+class Proudct_detail(APIView):
+    '''
+    商品详情页
+    ，通过产品的id 查看产品的详情页
+    '''
+    def get(self,request):
+
+        id = request.GET.get('id')
+
+        product = Pmsproduct.objects.filter(id=id)
+        product_s = PmsproductdetailModelSerializer(product,many=True)
+        mes = {}
+        mes['code'] = 200
+        mes['dd'] = product_s.data
+        return Response(mes)
+
+# 产品相关专题页面
+class Product_Subject(APIView):
+    '''
+    产品相关专题页面
+    '''
+    def get(self,request):
+
+        id = request.GET.get('id')
+        product = Pmsproduct.objects.filter(id = subjectId ).all()
+        product_s = CmsSubjectModelSerializer(product,many=True)
+        mes = {}
+        mes['code'] = 200
+        mes['subject'] = product_s.data
         return Response(mes)
 
 
-# 特惠详情页面展示
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

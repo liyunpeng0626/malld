@@ -677,14 +677,19 @@ class PmsMemberPrice(models.Model):
 #商品特惠价格表
 class PmsSalesPrice(models.Model):
     id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=100, blank=True, null=True)
+    sub_title = models.CharField(max_length=100, blank=True, null=True)
     promotionStartTime = models.DateTimeField() # 促销开始时间
     promotionEndTime = models.DateTimeField() # 促销结束时间
     promotionPrice = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True) # 促销价格
     brandId = models.BigIntegerField(blank=True, null=True) #品牌id
+    
 
     class Meta:
         managed = False
         db_table = 'pms_sales_price'
+
+
 
 
 # 商品表
@@ -692,7 +697,7 @@ class Pmsproduct(models.Model):
     id = models.AutoField(primary_key=True)
     brandId = models.BigIntegerField(blank=True, null=True) #品牌id
     productCategoryId = models.BigIntegerField(blank=True, null=True) #商品分类id
-    feightTemplateId = models.BigIntegerField(blank=True, null=True) #
+    subjectId = models.BigIntegerField(blank=True, null=True) # 专题ID
     productAttributeCategoryId = models.BigIntegerField(blank=True, null=True) #属性类型id
     name = models.CharField(max_length=64)
     pic = models.CharField(max_length=255, blank=True, null=True) #图片
@@ -729,7 +734,7 @@ class Pmsproduct(models.Model):
     keywords = models.CharField(max_length=255, blank=True, null=True) #关键字
     note = models.CharField(max_length=255, blank=True, null=True) #商品备注
     albumPics = models.CharField(
-    max_length=255, blank=True, null=True) # 画册图片，连产品图片限制为5张，以逗号分割
+    max_length=1000, blank=True, null=True) # 画册图片，连产品图片限制为5张，以逗号分割
     detailTitle = models.CharField(max_length=255, blank=True, null=True)
     detailDesc = models.TextField(blank=True, null=True)
     detailHtml = models.TextField(blank=True, null=True) # 产品详情网页内容
@@ -742,6 +747,7 @@ class Pmsproduct(models.Model):
     brandName = models.CharField(max_length=255, blank=True, null=True) # 品牌名称
     productCategoryName = models.CharField(max_length=255, blank=True, null=True)# 产品分类名称
     area_id = models.IntegerField(blank=True, null=True) #关联优选表id
+    sales_id = models.IntegerField(blank=True, null=True) #关联特惠id
  
 
     class Meta:

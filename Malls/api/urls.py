@@ -65,7 +65,14 @@ urlpatterns = [
     path('topic_category_guan',views.Topic_category_guan.as_view()),
     # 优选区展示优选推荐路由
     path('prefrenceArea_recommend',views.PrefrenceArea_recommend.as_view()),
-    path('dfg',views.gfhhhgh.as_view())
+    # 特惠详情展示路由
+    path('sales_price',views.Sales_price.as_view()),
+    # 相关商品的路由
+    path('product_xg',views.Product_XG.as_view()),
+    # 相关商品总个数路由
+    path('product_count',views.Product_Count.as_view()),
+    # 商品详情页路由
+    path('product_detail',views.Proudct_detail.as_view()),
     
     
 
